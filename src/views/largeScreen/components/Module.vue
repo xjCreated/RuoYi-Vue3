@@ -15,6 +15,9 @@ import Echart from "./Echart.vue";
 const chartOptions = ref({
   tooltip: {
     trigger: "axis",
+    axisPointer: {
+      type: "shadow",
+    },
   },
   grid: {
     left: "3%",
@@ -25,6 +28,9 @@ const chartOptions = ref({
   xAxis: {
     type: "category",
     data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    axisTick: {
+      alignWithLabel: true,
+    },
   },
   yAxis: {
     type: "value",
@@ -37,12 +43,8 @@ const chartOptions = ref({
   series: [
     {
       name: "访问量",
-      type: "line",
+      type: "bar",
       data: [150, 230, 224, 218, 135, 147, 260],
-      smooth: true,
-
-      areaStyle: {},
-      showSymbol: false, // 不显示数据点
     },
   ],
 });
