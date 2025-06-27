@@ -103,6 +103,12 @@ export const constantRoutes = [
         name: "Edition",
         meta: { title: "vue3练习版本滚动", icon: "user" },
       },
+      {
+        path: "largeScreen",
+        component: () => import("@/views/largeScreen"),
+        name: "LargeScreen",
+        meta: { title: "vue3大屏", icon: "user" },
+      },
     ],
   },
 ];
