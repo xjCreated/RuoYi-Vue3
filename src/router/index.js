@@ -109,6 +109,12 @@ export const constantRoutes = [
         name: "LargeScreen",
         meta: { title: "vue3大屏", icon: "user" },
       },
+      {
+        path: "piniaTest",
+        component: () => import("@/views/piniaTest"),
+        name: "PiniaTest",
+        meta: { title: "Pinia", icon: "user" },
+      },
     ],
   },
 ];

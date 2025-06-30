@@ -10,8 +10,9 @@ import useSettingsStore from "@/store/modules/settings";
 import usePermissionStore from "@/store/modules/permission";
 
 NProgress.configure({ showSpinner: false });
-
+//TODO:白名单
 const whiteList = ["/login", "/register"];
+//
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
