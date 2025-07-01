@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-header">
-    <div class="title">大数据可视化平台</div>
+    <div class="title">天门市张家湖湿地公园水文科普数据监测系统</div>
     <div class="time">{{ currentTime }}</div>
   </div>
 </template>
@@ -30,7 +30,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .dashboard-header {
   height: 60px;
   background: linear-gradient(90deg, #0a1d3a, #11468a);
@@ -46,6 +46,7 @@ onMounted(() => {
   font-weight: bold;
   letter-spacing: 2px;
   background: linear-gradient(to right, #fff, #64f0ff);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
