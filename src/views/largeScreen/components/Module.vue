@@ -1,9 +1,22 @@
 <template>
   <div class="module-container">
-    <div class="module-title">{{ title }}</div>
+    <div class="module-title" v-if="title">{{ title }}</div>
     <div class="module-content">
-      <!-- 这里可以放置图表或其他内容 -->
       <div class="chart-placeholder">
+        <div class="latest-data">
+          <div
+            v-for="item in latestData"
+            :key="item.value"
+            class="latest-data-item"
+            :class="latestData.length > 2 ? 'wrap' : 'noWrap'"
+          >
+            <span class="span-key">
+              {{ item.type }}
+            </span>
+            {{ item.value }}
+            <span class="span-unit">{{ item.unit }}</span>
+          </div>
+        </div>
         <Echart :options="chartOptions" />
       </div>
     </div>
@@ -23,6 +36,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  latestData: {
+    type: Object,
+    default: () => ({}),
+  },
   isShowPicture: {
     type: Boolean,
     default: false,
@@ -35,14 +52,6 @@ const props = defineProps({
 const { title, data, isShowPicture, gridRight } = toRefs(props);
 const srcValue = 1; //TODO:图片数据，待接口传入
 const chartOptions = ref({
-  title: {
-    show: false,
-    text: title.value,
-    left: "center",
-    textStyle: {
-      color: "#fff",
-    },
-  },
   tooltip: {
     trigger: "axis",
   },
@@ -179,7 +188,7 @@ const chartOptions = ref({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .module-container {
   height: 100%;
   display: flex;
@@ -209,6 +218,33 @@ const chartOptions = ref({
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgba(100, 240, 255, 0.7);
+  flex-direction: column;
+  .latest-data {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 16px;
+    .latest-data-item {
+      &:nth-child(1),
+      &:nth-child(2) {
+        margin-bottom: 10px;
+      }
+      .span-key {
+        display: inline-block;
+        width: 100px;
+      }
+      .span-unit {
+        font-size: 12px;
+      }
+    }
+    .wrap {
+      width: 45%;
+    }
+    .noWrap {
+      width: 100%;
+    }
+  }
 }
 </style>
