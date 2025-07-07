@@ -93,9 +93,20 @@ const chartOptions = ref({
       name: "Highest",
       type: "line",
       smooth: true,
-      data: [10, 11, 13, 11, 12, 12, 9],
+      data: [10, 11, 13, 11, 12, 15, 9],
       symbol: isShowPicture.value ? "image://" + handleImg(srcValue) : "",
       symbolSize: isShowPicture.value ? 20 : 6,
+      // symbolRotate: "180",
+      //动态设置角度，data的值做遍历，每一个增加20
+
+      symbolRotate: isShowPicture.value
+        ? function (params) {
+            return ((params / 0.3) * 15) / 0.4;
+          }
+        : "",
+      // symbolOffset: [0, 0], //设置偏移量
+      // symbolOffset: [0, 0], //设置偏移量
+
       markPoint: {
         data: [
           {
@@ -135,7 +146,7 @@ const chartOptions = ref({
       name: "Lowest",
       type: "line",
       smooth: true,
-      data: [1, -2, 2, 5, 3, 2, 0],
+      data: [1, -8, 2, 5, 3, 2, 0],
 
       markPoint: {
         data: [

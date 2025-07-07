@@ -1,0 +1,12 @@
+<svg width="546" height="332" class="dv-border-svg-container">
+    <path fill="transparent" d="
+        M 5 20 L 5 10 L 12 3  L 60 3 L 68 10
+        L 526 10 L 541 25
+        L 541 327 L 20 327
+        L 5 312 L 5 20
+      " stroke="#6586ec"></path>
+    <path fill="transparent" stroke-width="3" stroke-linecap="round" stroke-dasharray="10, 5" d="M 16 9 L 61 9"
+        stroke="#6586ec"></path>
+    <path fill="transparent" d="M 5 20 L 5 10 L 12 3  L 60 3 L 68 10" stroke="#2cf7fe"></path>
+    <path fill="transparent" d="M 541 302 L 541 327 L 516 327" stroke="#2cf7fe"></path>
+</svg>

@@ -24,7 +24,7 @@
           />
         </div>
         <div class="module module4">
-          <div class="module-title">土壤墒情</div>
+          <div class="module-title">{{ soilTitle }}</div>
           <div class="module-item-wrap">
             <Module class="module-item" :gridRight="'13'" :latestData="soilA" />
             <Module class="module-item" :gridRight="'13'" :latestData="soilB" />
@@ -33,12 +33,154 @@
         </div>
       </div>
     </div>
+    <svg-icon icon-class="bg" />
   </div>
 </template>
 
 <script setup name="LargeScreen">
 import Header from "./components/Header.vue";
 import Module from "./components/Module.vue";
+// import backgroundSvg from "@\views\largeScreen\img\img2\background.svg";
+const res = ref({
+  message: "成功",
+  data: {
+    trsq: {
+      samplingTime: "2025-07-06 12:01:09 ",
+      trwsd1: 28.5,
+      trwsd2: 59.7,
+      trwsd3: 26.2,
+      trwsd4: 0,
+      trwsd5: 25.1,
+      trwsd6: 26.4,
+    },
+    zhqx: {
+      samplingTime: "2025-07-06 12:01:09 ",
+      kqwd: 29.7,
+      kqsd: 54.7,
+      dqyl: 1011.5,
+    },
+    ldsw: {
+      samplingTime: "2025-07-06 12:01:09 ",
+      kg: 337,
+      sw: 243,
+    },
+    yl: {
+      samplingTime: "2025-07-06 12:01:09 ",
+      yl: 0,
+    },
+    fxfs: {
+      samplingTime: "2025-07-06 12:01:09 ",
+      fs: 1.3,
+      fj: 1,
+      fxjd: 170.9,
+      fx: '"东东北"',
+    },
+    lTrsq: [
+      {
+        samplingTime: "2025-07-06 09:05:20 ",
+        trwsd1: 23.5,
+        trwsd2: 59.7,
+        trwsd3: 26.2,
+        trwsd4: 0,
+        trwsd5: 25.1,
+        trwsd6: 26.4,
+      },
+      {
+        samplingTime: "2025-07-06 11:01:30 ",
+        trwsd1: 24.5,
+        trwsd2: 59.7,
+        trwsd3: 26.2,
+        trwsd4: 0,
+        trwsd5: 25.1,
+        trwsd6: 26.4,
+      },
+      {
+        samplingTime: "2025-07-06 12:01:09 ",
+        trwsd1: 28.5,
+        trwsd2: 59.7,
+        trwsd3: 26.2,
+        trwsd4: 0,
+        trwsd5: 25.1,
+        trwsd6: 26.4,
+      },
+    ],
+    lZhqx: [
+      {
+        samplingTime: "2025-07-06 09:05:20 ",
+        kqwd: 29.7,
+        kqsd: 54.7,
+        dqyl: 1011.5,
+      },
+      {
+        samplingTime: "2025-07-06 11:01:30 ",
+        kqwd: 29.7,
+        kqsd: 54.7,
+        dqyl: 1011.5,
+      },
+      {
+        samplingTime: "2025-07-06 12:01:09 ",
+        kqwd: 29.7,
+        kqsd: 54.7,
+        dqyl: 1011.5,
+      },
+    ],
+    lLdsw: [
+      {
+        samplingTime: "2025-07-06 09:05:20 ",
+        kg: 337,
+        sw: 243,
+      },
+      {
+        samplingTime: "2025-07-06 11:01:30 ",
+        kg: 337,
+        sw: 243,
+      },
+      {
+        samplingTime: "2025-07-06 12:01:09 ",
+        kg: 337,
+        sw: 243,
+      },
+    ],
+    lYl: [
+      {
+        samplingTime: "2025-07-06 09:05:20 ",
+        yl: 0,
+      },
+      {
+        samplingTime: "2025-07-06 11:01:30 ",
+        yl: 0,
+      },
+      {
+        samplingTime: "2025-07-06 12:01:09 ",
+        yl: 0,
+      },
+    ],
+    lFxfs: [
+      {
+        samplingTime: "2025-07-06 09:05:20 ",
+        fs: 1.3,
+        fj: 1,
+        fxjd: 280.9,
+        fx: '"东东北"',
+      },
+      {
+        samplingTime: "2025-07-06 11:01:30 ",
+        fs: 1.3,
+        fj: 1,
+        fxjd: 120.9,
+        fx: '"东东北"',
+      },
+      {
+        samplingTime: "2025-07-06 12:01:09 ",
+        fs: 1.3,
+        fj: 1,
+        fxjd: 170.9,
+        fx: '"东东北"',
+      },
+    ],
+  },
+});
+const soilTitle = ref("土壤墒情");
 const weather = ref([
   { type: "空气温度", value: "23", unit: "℃" },
   { type: "空气湿度", value: "50", unit: "%" },
@@ -121,7 +263,12 @@ const soilC = ref([
 }
 
 .module {
-  background: rgba(16, 31, 63, 0.8);
+  // background: rgba(16, 31, 63, 0.8);
+  background-image: url("./img/moduleBG.png");
+  background-size: 100% 100%; /* 或者使用 100% 100% 来覆盖整个元素 */
+  // background-position: center; /* 确保图片居中 */
+  // background-repeat: no-repeat; /* 防止图片重复 */
+
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 150, 255, 0.3);
   padding: 15px;
@@ -148,7 +295,6 @@ const soilC = ref([
     font-size: 18px;
     margin-bottom: 10px;
     color: #64f0ff;
-    border-bottom: 1px solid rgba(100, 240, 255, 0.3);
     padding-bottom: 5px;
   }
   .module-item-wrap {
