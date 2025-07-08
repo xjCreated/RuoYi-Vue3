@@ -5,7 +5,7 @@
       <div class="chart-placeholder">
         <div class="latest-data">
           <div
-            v-for="item in latestData"
+            v-for="item in headInfo"
             :key="item.value"
             class="latest-data-item"
             :class="latestData.length > 2 ? 'wrap' : 'noWrap'"
@@ -61,10 +61,31 @@ const { title, echartsData, isShowPicture, gridRight } = toRefs(props);
 // 定义颜色数组,用于设置图表中不同数据系列的颜色
 const colors = ["#e1c951", "#44cbb1", "#307ee2"];
 let chartOptionsData = ref([]);
+let headInfo = ref([]);
 let chartOptions = ref({});
+function handleLastDate(title, data) {
+  if (data.length > 0) {
+    const _latestData = data[data?.length - 1];
+    let latestData = [];
+    debugger;
+    switch (title) {
+      case "综合气象站":
+        latestData = [
+          { type: "空气温度", value: _latestData.kqwd, unit: "℃" },
+          { type: "空气湿度", value: _latestData.kqsd, unit: "%" },
+          { type: "大气压力", value: _latestData.dqyl, unit: "hPa" },
+        ];
+        break;
 
+      default:
+        break;
+    }
+    return latestData;
+  }
+}
 onBeforeMount(() => {
   chartOptionsData.value = handleData(echartsData.value, title.value);
+  headInfo.value = handleLastDate(title.value, echartsData.value);
 });
 onMounted(() => {
   const srcValue = 1;
