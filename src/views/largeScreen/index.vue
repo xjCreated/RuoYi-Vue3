@@ -5,13 +5,25 @@
     <div class="dashboard-content">
       <div class="row">
         <div class="module module1">
-          <Module :title="'综合气象站'" :latestData="weather" />
+          <Module
+            :title="'综合气象站'"
+            :latestData="weather"
+            :echartsData="weatherData"
+          />
         </div>
         <div class="module module2">
-          <Module :title="'雷达水位'" :latestData="radar" />
+          <Module
+            :title="'雷达水位'"
+            :latestData="radar"
+            :echartsData="radarData"
+          />
         </div>
         <div class="module module1">
-          <Module :title="'雨量检测'" :latestData="rain" />
+          <Module
+            :title="'雨量监测'"
+            :latestData="rain"
+            :echartsData="rainData"
+          />
         </div>
       </div>
 
@@ -21,14 +33,30 @@
             :title="'风向风速'"
             :isShowPicture="true"
             :latestData="wind"
+            :echartsData="windData"
           />
         </div>
         <div class="module module4">
           <div class="module-title">{{ soilTitle }}</div>
           <div class="module-item-wrap">
-            <Module class="module-item" :gridRight="'13'" :latestData="soilA" />
-            <Module class="module-item" :gridRight="'13'" :latestData="soilB" />
-            <Module class="module-item" :gridRight="'13'" :latestData="soilC" />
+            <Module
+              class="module-item"
+              :gridRight="'13'"
+              :latestData="soilA"
+              :echartsData="soilAData"
+            />
+            <Module
+              class="module-item"
+              :gridRight="'13'"
+              :latestData="soilB"
+              :echartsData="soilBData"
+            />
+            <Module
+              class="module-item"
+              :gridRight="'13'"
+              :latestData="soilC"
+              :echartsData="soilCData"
+            />
           </div>
         </div>
       </div>
@@ -41,145 +69,65 @@
 import Header from "./components/Header.vue";
 import Module from "./components/Module.vue";
 // import backgroundSvg from "@\views\largeScreen\img\img2\background.svg";
-const res = ref({
-  message: "成功",
-  data: {
-    trsq: {
-      samplingTime: "2025-07-06 12:01:09 ",
-      trwsd1: 28.5,
-      trwsd2: 59.7,
-      trwsd3: 26.2,
-      trwsd4: 0,
-      trwsd5: 25.1,
-      trwsd6: 26.4,
-    },
-    zhqx: {
-      samplingTime: "2025-07-06 12:01:09 ",
-      kqwd: 29.7,
-      kqsd: 54.7,
-      dqyl: 1011.5,
-    },
-    ldsw: {
-      samplingTime: "2025-07-06 12:01:09 ",
-      kg: 337,
-      sw: 243,
-    },
-    yl: {
-      samplingTime: "2025-07-06 12:01:09 ",
-      yl: 0,
-    },
-    fxfs: {
-      samplingTime: "2025-07-06 12:01:09 ",
-      fs: 1.3,
-      fj: 1,
-      fxjd: 170.9,
-      fx: '"东东北"',
-    },
-    lTrsq: [
-      {
-        samplingTime: "2025-07-06 09:05:20 ",
-        trwsd1: 23.5,
-        trwsd2: 59.7,
-        trwsd3: 26.2,
-        trwsd4: 0,
-        trwsd5: 25.1,
-        trwsd6: 26.4,
-      },
-      {
-        samplingTime: "2025-07-06 11:01:30 ",
-        trwsd1: 24.5,
-        trwsd2: 59.7,
-        trwsd3: 26.2,
-        trwsd4: 0,
-        trwsd5: 25.1,
-        trwsd6: 26.4,
-      },
-      {
-        samplingTime: "2025-07-06 12:01:09 ",
-        trwsd1: 28.5,
-        trwsd2: 59.7,
-        trwsd3: 26.2,
-        trwsd4: 0,
-        trwsd5: 25.1,
-        trwsd6: 26.4,
-      },
-    ],
-    lZhqx: [
-      {
-        samplingTime: "2025-07-06 09:05:20 ",
-        kqwd: 29.7,
-        kqsd: 54.7,
-        dqyl: 1011.5,
-      },
-      {
-        samplingTime: "2025-07-06 11:01:30 ",
-        kqwd: 29.7,
-        kqsd: 54.7,
-        dqyl: 1011.5,
-      },
-      {
-        samplingTime: "2025-07-06 12:01:09 ",
-        kqwd: 29.7,
-        kqsd: 54.7,
-        dqyl: 1011.5,
-      },
-    ],
-    lLdsw: [
-      {
-        samplingTime: "2025-07-06 09:05:20 ",
-        kg: 337,
-        sw: 243,
-      },
-      {
-        samplingTime: "2025-07-06 11:01:30 ",
-        kg: 337,
-        sw: 243,
-      },
-      {
-        samplingTime: "2025-07-06 12:01:09 ",
-        kg: 337,
-        sw: 243,
-      },
-    ],
-    lYl: [
-      {
-        samplingTime: "2025-07-06 09:05:20 ",
-        yl: 0,
-      },
-      {
-        samplingTime: "2025-07-06 11:01:30 ",
-        yl: 0,
-      },
-      {
-        samplingTime: "2025-07-06 12:01:09 ",
-        yl: 0,
-      },
-    ],
-    lFxfs: [
-      {
-        samplingTime: "2025-07-06 09:05:20 ",
-        fs: 1.3,
-        fj: 1,
-        fxjd: 280.9,
-        fx: '"东东北"',
-      },
-      {
-        samplingTime: "2025-07-06 11:01:30 ",
-        fs: 1.3,
-        fj: 1,
-        fxjd: 120.9,
-        fx: '"东东北"',
-      },
-      {
-        samplingTime: "2025-07-06 12:01:09 ",
-        fs: 1.3,
-        fj: 1,
-        fxjd: 170.9,
-        fx: '"东东北"',
-      },
-    ],
+const res = [
+  {
+    samplingTime: "2025-07-07 09:05:20 ",
+    trwsd1: 23.5,
+    trwsd2: 59.7,
+    trwsd3: 26.2,
+    trwsd4: 0,
+    trwsd5: 25.1,
+    trwsd6: 26.4,
+    kqwd: 29.7,
+    kqsd: 54.7,
+    dqyl: 1011.5,
+    kg: 337,
+    sw: 243,
+    yl: 0,
+    fs: 1.3,
+    fj: 1,
+    fxjd: 280.9,
+    fx: '"东东北"',
   },
-});
+  {
+    samplingTime: "2025-07-07 11:01:30 ",
+    trwsd1: 24.5,
+    trwsd2: 59.7,
+    trwsd3: 26.2,
+    trwsd4: 0,
+    trwsd5: 25.1,
+    trwsd6: 26.4,
+    kqwd: 29.7,
+    kqsd: 54.7,
+    dqyl: 1011.5,
+    kg: 337,
+    sw: 243,
+    yl: 0,
+    fs: 1.3,
+    fj: 1,
+    fxjd: 120.9,
+    fx: '"东东北"',
+  },
+  {
+    samplingTime: "2025-07-07 12:01:09 ",
+    trwsd1: 28.5,
+    trwsd2: 59.7,
+    trwsd3: 26.2,
+    trwsd4: 0,
+    trwsd5: 25.1,
+    trwsd6: 26.4,
+    kqwd: 29.7,
+    kqsd: 54.7,
+    dqyl: 1011.5,
+    kg: 337,
+    sw: 243,
+    yl: 0,
+    fs: 1.3,
+    fj: 1,
+    fxjd: 170.9,
+    fx: '"东东北"',
+  },
+];
 const soilTitle = ref("土壤墒情");
 const weather = ref([
   { type: "空气温度", value: "23", unit: "℃" },

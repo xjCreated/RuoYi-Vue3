@@ -32,9 +32,9 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  data: {
+  echartsData: {
     type: Object,
-    default: () => ({}),
+    default: () => [],
   },
   latestData: {
     type: Object,
@@ -49,8 +49,10 @@ const props = defineProps({
     default: 10,
   },
 });
-const { title, data, isShowPicture, gridRight } = toRefs(props);
+const { title, echartsData, isShowPicture, gridRight } = toRefs(props);
 const srcValue = 1; //TODO:图片数据，待接口传入
+const chartOptionsData = ref([]);
+
 const chartOptions = ref({
   tooltip: {
     trigger: "axis",
