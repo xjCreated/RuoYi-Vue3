@@ -8,60 +8,51 @@
           <Module
             :title="'综合气象站'"
             :latestData="weather"
-            :echartsData="weatherData"
+            :echartsData="res"
           />
         </div>
-        <div class="module module2">
-          <Module
-            :title="'雷达水位'"
-            :latestData="radar"
-            :echartsData="radarData"
-          />
-        </div>
-        <div class="module module1">
-          <Module
-            :title="'雨量监测'"
-            :latestData="rain"
-            :echartsData="rainData"
-          />
-        </div>
+        <!-- <div class="module module2">
+          <Module :title="'雷达水位'" :latestData="radar" :echartsData="res" />
+        </div> -->
+        <!-- <div class="module module1">
+          <Module :title="'雨量监测'" :latestData="rain" :echartsData="res" />
+        </div> -->
       </div>
 
       <div class="row mt30">
-        <div class="module module3">
+        <!-- <div class="module module3">
           <Module
             :title="'风向风速'"
             :isShowPicture="true"
             :latestData="wind"
-            :echartsData="windData"
+            :echartsData="res"
           />
-        </div>
-        <div class="module module4">
+        </div> -->
+        <!-- <div class="module module4">
           <div class="module-title">{{ soilTitle }}</div>
           <div class="module-item-wrap">
             <Module
               class="module-item"
               :gridRight="'13'"
               :latestData="soilA"
-              :echartsData="soilAData"
+              :echartsData="res"
             />
             <Module
               class="module-item"
               :gridRight="'13'"
               :latestData="soilB"
-              :echartsData="soilBData"
+              :echartsData="res"
             />
             <Module
               class="module-item"
               :gridRight="'13'"
               :latestData="soilC"
-              :echartsData="soilCData"
+              :echartsData="res"
             />
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
-    <svg-icon icon-class="bg" />
   </div>
 </template>
 
