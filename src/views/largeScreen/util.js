@@ -77,10 +77,10 @@ export function handleData(data, title) {
   return _data;
 }
 export function handleYAxis(title, colors) {
-  let yAxis = [];
+  let _yAxis = [];
   switch (title) {
     case "综合气象站":
-      yAxis = [
+      _yAxis = [
         {
           type: "value", // 坐标轴类型:数值轴
           name: "温度", // 坐标轴名称
@@ -150,7 +150,131 @@ export function handleYAxis(title, colors) {
     default:
       break;
   }
-  return yAxis;
+  return _yAxis;
+}
+
+export function handleSeries(title, data, colors) {
+  let _series = [];
+  console.log(data, "dataxiejing");
+
+  switch (title) {
+    case "综合气象站":
+      _series = [
+        {
+          name: "空气温度",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.kqwd),
+          // markPoint: {
+          //   data: [
+          //     {
+          //       type: "max",
+          //       name: "Max",
+          //       symbolSize: 36, // 设置图标大小
+          //     },
+          //     {
+          //       type: "min",
+          //       name: "Min",
+          //       symbolSize: 36, // 设置图标大小
+          //     },
+          //   ],
+          // },
+          // markPoint: {
+          //   data: [
+          //     {
+          //       name: "周最低",
+          //       value: -2,
+          //       xAxis: 1,
+          //       yAxis: -1.5,
+          //       symbolSize: 36, // 设置图标大小
+          //     },
+          //   ],
+          // },
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+
+        {
+          name: "空气湿度",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.kqsd),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[1],
+          },
+          itemStyle: {
+            color: colors[1],
+          },
+
+          yAxisIndex: 1, //TODO:设置y轴索引
+        },
+        {
+          name: "大气压力",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.dqyl),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: "#B6A2DE",
+          },
+          itemStyle: {
+            color: "#B6A2DE",
+          },
+
+          yAxisIndex: 2, //TODO:设置y轴索引
+        },
+      ];
+      break;
+
+    default:
+      break;
+  }
+  return _series;
 }
 export function formatTime(timeStr, pattern) {
   const dt = new Date(timeStr);

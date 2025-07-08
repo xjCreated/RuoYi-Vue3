@@ -30,6 +30,7 @@ import {
   handleImg,
   handleData,
   handleYAxis,
+  handleSeries,
   formatTime,
 } from "../util";
 import { onMounted } from "vue";
@@ -61,14 +62,9 @@ const { title, echartsData, isShowPicture, gridRight } = toRefs(props);
 const colors = ["#e1c951", "#44cbb1", "#307ee2"];
 let chartOptionsData = ref([]);
 let chartOptions = ref({});
+
 onBeforeMount(() => {
   chartOptionsData.value = handleData(echartsData.value, title.value);
-  console.log(
-    chartOptionsData.value.map((item) =>
-      formatTime(item.samplingTime, "HH-mm")
-    ),
-    "xiejing"
-  );
 });
 onMounted(() => {
   const srcValue = 1;
@@ -91,7 +87,7 @@ onMounted(() => {
         show: true,
         lineStyle: { color: "#6C9ED5" }, // 线的颜色
       },
-      // boundaryGap: false, // 不留白,贴着Y轴
+      boundaryGap: false, // 不留白贴着Y轴
       data: chartOptionsData.value.map((item) => {
         return formatTime(item.samplingTime, "HH:mm");
       }),
@@ -116,138 +112,101 @@ onMounted(() => {
               },
             },
           ],
-    series: [
-      {
-        name: "Highest",
-        type: "line",
-        smooth: true,
-        data: [10, 11, 13],
-        symbol: isShowPicture.value ? "image://" + handleImg(srcValue) : "",
-        symbolSize: isShowPicture.value ? 20 : 6,
-
-        //动态设置角度，data的值做遍历，每一个增加20
-
-        symbolRotate: isShowPicture.value
-          ? function (params) {
-              return ((params / 0.3) * 15) / 0.4;
-            }
-          : "",
-
-        markPoint: {
-          data: [
+    series:
+      title.value === "综合气象站"
+        ? handleSeries(title.value, chartOptionsData.value, colors)
+        : [
             {
-              type: "max",
-              name: "Max",
-              symbolSize: 36, // 设置图标大小
+              name: "Highest",
+              type: "line",
+              smooth: true,
+              data: [10, 11, 13],
+              symbol: isShowPicture.value
+                ? "image://" + handleImg(srcValue)
+                : "",
+              symbolSize: isShowPicture.value ? 20 : 6,
+
+              //动态设置角度，data的值做遍历，每一个增加20
+
+              symbolRotate: isShowPicture.value
+                ? function (params) {
+                    return ((params / 0.3) * 15) / 0.4;
+                  }
+                : "",
+
+              markPoint: {
+                data: [
+                  {
+                    type: "max",
+                    name: "Max",
+                    symbolSize: 36, // 设置图标大小
+                  },
+                  {
+                    type: "min",
+                    name: "Min",
+                    symbolSize: 36, // 设置图标大小
+                  },
+                ],
+              },
+              markLine: {
+                data: [
+                  {
+                    type: "average",
+                    name: "Avg",
+                    label: {
+                      formatter: function (params) {
+                        return handleNumber(params.value);
+                      },
+                    },
+                  },
+                ],
+              },
+              lineStyle: {
+                color: "#64f0ff",
+              },
+              itemStyle: {
+                color: "#64f0ff",
+              },
             },
+
             {
-              type: "min",
-              name: "Min",
-              symbolSize: 36, // 设置图标大小
-            },
-          ],
-        },
-        markLine: {
-          data: [
-            {
-              type: "average",
-              name: "Avg",
-              label: {
-                formatter: function (params) {
-                  return handleNumber(params.value);
-                },
+              name: "Lowest",
+              type: "line",
+              smooth: true,
+              data: [5, 3, 2],
+
+              markPoint: {
+                data: [
+                  {
+                    name: "周最低",
+                    value: -2,
+                    xAxis: 1,
+                    yAxis: -1.5,
+                    symbolSize: 36, // 设置图标大小
+                  },
+                ],
+              },
+              markLine: {
+                data: [
+                  {
+                    type: "average",
+                    name: "Avg",
+                    label: {
+                      formatter: function (params) {
+                        return handleNumber(params.value);
+                      },
+                    },
+                  },
+                ],
+              },
+              lineStyle: {
+                color: "#B6A2DE",
+              },
+              itemStyle: {
+                color: "#B6A2DE",
               },
             },
           ],
-        },
-        lineStyle: {
-          color: "#64f0ff",
-        },
-        itemStyle: {
-          color: "#64f0ff",
-        },
-        yAxisIndex: 0,
-      },
-
-      {
-        name: "Lowest",
-        type: "line",
-        smooth: true,
-        data: [5, 3, 2],
-
-        markPoint: {
-          data: [
-            {
-              name: "周最低",
-              value: -2,
-              xAxis: 1,
-              yAxis: -1.5,
-              symbolSize: 36, // 设置图标大小
-            },
-          ],
-        },
-        markLine: {
-          data: [
-            {
-              type: "average",
-              name: "Avg",
-              label: {
-                formatter: function (params) {
-                  return handleNumber(params.value);
-                },
-              },
-            },
-          ],
-        },
-        lineStyle: {
-          color: "#B6A2DE",
-        },
-        itemStyle: {
-          color: "#B6A2DE",
-        },
-
-        yAxisIndex: 1, //TODO:设置y轴索引
-      },
-      {
-        name: "Lowest1",
-        type: "line",
-        smooth: true,
-        data: [12, 5, 2],
-
-        markPoint: {
-          data: [
-            {
-              name: "周最低",
-              value: -2,
-              xAxis: 1,
-              yAxis: -1.5,
-              symbolSize: 36, // 设置图标大小
-            },
-          ],
-        },
-        markLine: {
-          data: [
-            {
-              type: "average",
-              name: "Avg",
-              label: {
-                formatter: function (params) {
-                  return handleNumber(params.value);
-                },
-              },
-            },
-          ],
-        },
-        lineStyle: {
-          color: "#B6A2DE",
-        },
-        itemStyle: {
-          color: "#B6A2DE",
-        },
-
-        yAxisIndex: 2, //TODO:设置y轴索引
-      },
-    ],
   };
 });
 </script>

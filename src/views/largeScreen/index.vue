@@ -11,9 +11,9 @@
             :echartsData="res"
           />
         </div>
-        <!-- <div class="module module2">
+        <div class="module module2">
           <Module :title="'雷达水位'" :latestData="radar" :echartsData="res" />
-        </div> -->
+        </div>
         <!-- <div class="module module1">
           <Module :title="'雨量监测'" :latestData="rain" :echartsData="res" />
         </div> -->
