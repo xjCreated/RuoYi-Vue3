@@ -31,6 +31,7 @@ import {
   handleData,
   handleYAxis,
   handleSeries,
+  handleLastDate,
   formatTime,
 } from "../util";
 import { onMounted } from "vue";
@@ -48,44 +49,38 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  moduleType: {
+    type: String,
+    default: "",
+  },
   isShowPicture: {
     type: Boolean,
     default: false,
   },
   gridRight: {
     type: Number,
-    default: 10,
+    default: 14,
   },
 });
-const { title, echartsData, isShowPicture, gridRight } = toRefs(props);
+const { title, echartsData, moduleType, isShowPicture, gridRight } =
+  toRefs(props);
 // 定义颜色数组,用于设置图表中不同数据系列的颜色
 const colors = ["#e1c951", "#44cbb1", "#307ee2"];
 let chartOptionsData = ref([]);
 let headInfo = ref([]);
 let chartOptions = ref({});
-function handleLastDate(title, data) {
-  if (data.length > 0) {
-    const _latestData = data[data?.length - 1];
-    let latestData = [];
-    debugger;
-    switch (title) {
-      case "综合气象站":
-        latestData = [
-          { type: "空气温度", value: _latestData.kqwd, unit: "℃" },
-          { type: "空气湿度", value: _latestData.kqsd, unit: "%" },
-          { type: "大气压力", value: _latestData.dqyl, unit: "hPa" },
-        ];
-        break;
 
-      default:
-        break;
-    }
-    return latestData;
-  }
-}
 onBeforeMount(() => {
-  chartOptionsData.value = handleData(echartsData.value, title.value);
-  headInfo.value = handleLastDate(title.value, echartsData.value);
+  chartOptionsData.value = handleData(
+    echartsData.value,
+    title.value,
+    moduleType.value
+  );
+  headInfo.value = handleLastDate(
+    title.value,
+    echartsData.value,
+    moduleType.value
+  );
 });
 onMounted(() => {
   const srcValue = 1;
@@ -95,7 +90,7 @@ onMounted(() => {
       trigger: "axis",
     },
     grid: {
-      left: "4%",
+      left: "8%",
       right: `${gridRight.value}%`,
       bottom: "3%",
       containLabel: true,
@@ -113,121 +108,13 @@ onMounted(() => {
         return formatTime(item.samplingTime, "HH:mm");
       }),
     },
-    yAxis:
-      title.value === "综合气象站"
-        ? handleYAxis(title.value, colors)
-        : [
-            {
-              type: "value",
-              axisLine: {
-                show: true,
-                lineStyle: { color: "#6C9ED5" }, // 线的颜色
-              },
-              axisLabel: {
-                formatter: "{value} °C",
-              },
-              splitLine: {
-                lineStyle: {
-                  color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
-                },
-              },
-            },
-          ],
-    series:
-      title.value === "综合气象站"
-        ? handleSeries(title.value, chartOptionsData.value, colors)
-        : [
-            {
-              name: "Highest",
-              type: "line",
-              smooth: true,
-              data: [10, 11, 13],
-              symbol: isShowPicture.value
-                ? "image://" + handleImg(srcValue)
-                : "",
-              symbolSize: isShowPicture.value ? 20 : 6,
-
-              //动态设置角度，data的值做遍历，每一个增加20
-
-              symbolRotate: isShowPicture.value
-                ? function (params) {
-                    return ((params / 0.3) * 15) / 0.4;
-                  }
-                : "",
-
-              markPoint: {
-                data: [
-                  {
-                    type: "max",
-                    name: "Max",
-                    symbolSize: 36, // 设置图标大小
-                  },
-                  {
-                    type: "min",
-                    name: "Min",
-                    symbolSize: 36, // 设置图标大小
-                  },
-                ],
-              },
-              markLine: {
-                data: [
-                  {
-                    type: "average",
-                    name: "Avg",
-                    label: {
-                      formatter: function (params) {
-                        return handleNumber(params.value);
-                      },
-                    },
-                  },
-                ],
-              },
-              lineStyle: {
-                color: "#64f0ff",
-              },
-              itemStyle: {
-                color: "#64f0ff",
-              },
-            },
-
-            {
-              name: "Lowest",
-              type: "line",
-              smooth: true,
-              data: [5, 3, 2],
-
-              markPoint: {
-                data: [
-                  {
-                    name: "周最低",
-                    value: -2,
-                    xAxis: 1,
-                    yAxis: -1.5,
-                    symbolSize: 36, // 设置图标大小
-                  },
-                ],
-              },
-              markLine: {
-                data: [
-                  {
-                    type: "average",
-                    name: "Avg",
-                    label: {
-                      formatter: function (params) {
-                        return handleNumber(params.value);
-                      },
-                    },
-                  },
-                ],
-              },
-              lineStyle: {
-                color: "#B6A2DE",
-              },
-              itemStyle: {
-                color: "#B6A2DE",
-              },
-            },
-          ],
+    yAxis: handleYAxis(title.value, colors, moduleType.value),
+    series: handleSeries(
+      title.value,
+      chartOptionsData.value,
+      colors,
+      moduleType.value
+    ),
   };
 });
 </script>

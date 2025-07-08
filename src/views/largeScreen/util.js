@@ -9,11 +9,12 @@ export function handleNumber(value, fixed = 2) {
   return val.toFixed(fixed);
 }
 import windbarb_1 from "@/views/largeScreen/img/weatherCock/windbarb_1.png";
-export function handleImg(srcValue) {
+export function handleImg(srcValue = 1) {
   const img = windbarb_1;
+
   return img;
 }
-export function handleData(data, title) {
+export function handleData(data, title, type) {
   let _data = [];
   switch (title) {
     case "综合气象站":
@@ -62,21 +63,82 @@ export function handleData(data, title) {
       _data = data.map((item) => {
         const { samplingTime, trwsd1, trwsd2, trwsd3, trwsd4, trwsd5, trwsd6 } =
           item;
-        return {
-          samplingTime,
-          trwsd1,
-          trwsd2,
-          trwsd3,
-          trwsd4,
-          trwsd5,
-          trwsd6,
-        };
+        if (type === "trsqA") {
+          return {
+            samplingTime,
+            trwsd1,
+            trwsd2,
+          };
+        } else if (type === "trsqB") {
+          return {
+            samplingTime,
+
+            trwsd3,
+            trwsd4,
+          };
+        } else {
+          return {
+            samplingTime,
+            trwsd5,
+            trwsd6,
+          };
+        }
       });
+
       break;
   }
   return _data;
 }
-export function handleYAxis(title, colors) {
+export function handleLastDate(title, data, type) {
+  if (data.length > 0) {
+    const _latestData = data[data?.length - 1];
+    let latestData = [];
+    switch (title) {
+      case "综合气象站":
+        latestData = [
+          { type: "空气温度", value: _latestData.kqwd, unit: "℃" },
+          { type: "空气湿度", value: _latestData.kqsd, unit: "%" },
+          { type: "大气压力", value: _latestData.dqyl, unit: "hPa" },
+        ];
+        break;
+      case "雷达水位":
+        latestData = [{ type: "空高", value: _latestData.kg, unit: "m" }];
+        break;
+      case "雨量监测":
+        latestData = [{ type: "空高", value: _latestData.kg, unit: "mm" }];
+        break;
+      case "风向风速":
+        latestData = [
+          { type: "风向", value: _latestData.fx, unit: "" },
+          { type: "风速", value: _latestData.fs, unit: "m/s" },
+          { type: "风级", value: _latestData.fj, unit: "级" },
+          { type: "风向角度", value: _latestData.fxjd, unit: "°" },
+        ];
+        break;
+
+      default:
+        if (type === "trsqA") {
+          latestData = [
+            { type: "土壤温度1", value: _latestData.trwsd1, unit: "℃" },
+            { type: "土壤湿度2", value: _latestData.trwsd2, unit: "%RH" },
+          ];
+        } else if (type === "trsqB") {
+          latestData = [
+            { type: "土壤温度3", value: _latestData.trwsd3, unit: "℃" },
+            { type: "土壤湿度4", value: _latestData.trwsd4, unit: "%RH" },
+          ];
+        } else {
+          latestData = [
+            { type: "土壤温度5", value: _latestData.trwsd5, unit: "℃" },
+            { type: "土壤湿度6", value: _latestData.trwsd6, unit: "%RH" },
+          ];
+        }
+        break;
+    }
+    return latestData;
+  }
+}
+export function handleYAxis(title, colors, type) {
   let _yAxis = [];
   switch (title) {
     case "综合气象站":
@@ -146,16 +208,137 @@ export function handleYAxis(title, colors) {
         },
       ];
       break;
+    case "雷达水位":
+      _yAxis = [
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "空高", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 0, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[0], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+      ];
+      break;
+    case "雨量监测":
+      _yAxis = [
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "雨量", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 0, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[0], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+      ];
+      break;
+    case "风向风速":
+      _yAxis = [
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "风速", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 0, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[0], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "风向角度", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 40, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[1], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+      ];
+      break;
 
     default:
+      _yAxis = [
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "土壤温度", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 0, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[0], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+        {
+          type: "value", // 坐标轴类型:数值轴
+          name: "土壤湿度", // 坐标轴名称
+          position: "left", // 坐标轴位置:左侧
+          offset: 50, // 坐标轴相对于默认位置的偏移:无偏移
+          axisLine: {
+            show: true, // 是否显示坐标轴线
+            lineStyle: {
+              color: colors[1], // 坐标轴线颜色:使用颜色数组的第一个颜色
+            },
+          },
+          splitLine: {
+            show: true, // 是否显示分隔线
+            lineStyle: {
+              color: "rgba(255, 255, 255, 0.2)", // 浅色网格线
+            },
+          },
+        },
+      ];
       break;
   }
   return _yAxis;
 }
 
-export function handleSeries(title, data, colors) {
+export function handleSeries(title, data, colors, type) {
   let _series = [];
-  console.log(data, "dataxiejing");
 
   switch (title) {
     case "综合气象站":
@@ -270,8 +453,185 @@ export function handleSeries(title, data, colors) {
         },
       ];
       break;
+    case "雷达水位":
+      _series = [
+        {
+          name: "空高",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.kg),
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+      ];
+      break;
+    case "雨量监测":
+      _series = [
+        {
+          name: "雨量",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.yl),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+      ];
+      break;
+    case "风向风速":
+      _series = [
+        {
+          name: "风速",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.fs),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+
+        {
+          name: "风向角度",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item.fxjd),
+          symbol: "image://" + handleImg(),
+          symbolSize: 20,
+          symbolRotate: function (params) {
+            return params;
+          },
+
+          lineStyle: {
+            color: colors[1],
+          },
+          itemStyle: {
+            color: colors[1],
+          },
+
+          yAxisIndex: 1, //TODO:设置y轴索引
+        },
+      ];
+      break;
 
     default:
+      let index = 1;
+      if (type === "trsqA") {
+        index = 1;
+      } else if (type === "trsqB") {
+        index = 3;
+      } else {
+        index = 5;
+      }
+      _series = [
+        {
+          name: "土壤温度",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item[`trwsd${index}`]),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+        {
+          name: "土壤湿度",
+          type: "line",
+          smooth: true,
+          data: data.map((item) => item[`trwsd${index + 1}`]),
+
+          markLine: {
+            data: [
+              {
+                type: "average",
+                name: "Avg",
+                label: {
+                  formatter: function (params) {
+                    return handleNumber(params.value);
+                  },
+                },
+              },
+            ],
+          },
+          lineStyle: {
+            color: colors[0],
+          },
+          itemStyle: {
+            color: colors[0],
+          },
+          yAxisIndex: 0,
+        },
+      ];
       break;
   }
   return _series;
