@@ -88,6 +88,7 @@ import { encrypt, decrypt } from "@/utils/jsencrypt";
 import useUserStore from "@/store/modules/user";
 
 const userStore = useUserStore();
+console.log(userStore, "userStore");
 const router = useRouter();
 const { proxy } = getCurrentInstance();
 

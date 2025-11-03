@@ -8,7 +8,7 @@
             v-for="item in headInfo"
             :key="item.value"
             class="latest-data-item"
-            :class="latestData.length > 2 ? 'wrap' : 'noWrap'"
+            :class="headInfo.length > 2 ? 'wrap' : 'noWrap'"
           >
             <span class="span-key">
               {{ item.type }}
@@ -58,7 +58,7 @@ const props = defineProps({
     default: false,
   },
   gridRight: {
-    type: Number,
+    type: [Number, String],
     default: 14,
   },
 });

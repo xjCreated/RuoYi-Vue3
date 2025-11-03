@@ -13,7 +13,9 @@
     <div>
       <h3>活跃用户({{ activeUsersCount }})</h3>
       <ul>
-        <li v-for="user in activeusers" :key="user.id">{{ user.name }}</li>
+        <li v-for="user in _activeUsers" :key="user.id">
+          {{ user.name }}
+        </li>
       </ul>
     </div>
     <button @click="fetchMoreUsers">加载更多用户</button>
@@ -29,17 +31,19 @@
 <script setup name="PiniaTest">
 import { ref, computed } from "vue";
 import useUserStore from "@/store/modules/useStore";
+
 const userStore = useUserStore();
+console.log(userStore, "userStore2");
 const newUser = ref({ name: "", age: "" });
+const _activeUsers = ref([]);
+_activeUsers.value = userStore.activeUsers;
 
 //从store中获取state
 const loading = computed(() => userStore.loading);
 const users = computed(() => userStore.users);
 
 //使用getters
-
-const activeUsers = computed(() => userStore.activeUsers);
-const activeUsersCount = computed(() => activeUsers.value.length);
+const activeUsersCount = computed(() => _activeUsers.value.length);
 
 //使用actions
 const fetchMoreUsers = () => userStore.fetchUsers();

@@ -297,7 +297,7 @@ export function handleYAxis(title, colors, type) {
       _yAxis = [
         {
           type: "value", // 坐标轴类型:数值轴
-          name: "土壤温度", // 坐标轴名称
+          name: "温度", // 坐标轴名称
           position: "left", // 坐标轴位置:左侧
           offset: 0, // 坐标轴相对于默认位置的偏移:无偏移
           axisLine: {
@@ -315,9 +315,9 @@ export function handleYAxis(title, colors, type) {
         },
         {
           type: "value", // 坐标轴类型:数值轴
-          name: "土壤湿度", // 坐标轴名称
+          name: "湿度", // 坐标轴名称
           position: "left", // 坐标轴位置:左侧
-          offset: 50, // 坐标轴相对于默认位置的偏移:无偏移
+          offset: 30, // 坐标轴相对于默认位置的偏移:无偏移
           axisLine: {
             show: true, // 是否显示坐标轴线
             lineStyle: {
